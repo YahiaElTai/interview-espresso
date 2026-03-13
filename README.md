@@ -114,6 +114,16 @@ Same as the main repo:
 |---|------|-------------|
 | 01 | [Leadership & Behavioral](10-behavioral/01-leadership-and-behavioral.md) | STAR method, technical decisions, conflict resolution |
 
+## Stats
+
+|  | Full repo | Espresso |
+|---|---|---|
+| **Files** | 49 | 44 |
+| **Questions** | 1,704 | 1,031 |
+| **Coverage** | 100% | 60.5% |
+
+5 system design topics were cut entirely (rate limiter, e-commerce checkout, notification service, file storage, real-time analytics). The remaining 44 files were trimmed from ~35 questions average down to ~23.
+
 ## Progress
 
-44 topic files across 10 sections. Distillation and answer generation in progress.
+44 topic files across 10 sections. Distillation complete, answer generation in progress.
