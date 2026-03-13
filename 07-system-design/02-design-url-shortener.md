@@ -1,6 +1,6 @@
 # System Design: URL Shortener
 
-> **21 questions**
+> **20 questions**
 
 - Requirements gathering and back-of-the-envelope estimation: read/write ratio, requests per second, storage growth, bandwidth, cache memory sizing
 - API design: endpoints for creation, redirection, custom aliases, expiration
@@ -128,14 +128,7 @@
 </details>
 
 <details>
-<summary>16. If you use base62 encoding of an auto-incrementing counter, how do you generate unique IDs in a distributed system — why does a single auto-increment sequence become a bottleneck, what are the options (database sequences, Snowflake-style IDs, range-based allocation), and how does each approach affect URL length, ordering, and collision safety?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>17. How do you handle the case where a hash-based encoding strategy produces a collision — walk through the collision detection and resolution flow, why does truncating MD5/SHA256 to 7 characters make collisions likely at scale, what retry or chaining strategy resolves them, and at what collision rate does this approach become impractical compared to KGS?</summary>
+<summary>16. How do you handle the case where a hash-based encoding strategy produces a collision — walk through the collision detection and resolution flow, why does truncating MD5/SHA256 to 7 characters make collisions likely at scale, what retry or chaining strategy resolves them, and at what collision rate does this approach become impractical compared to KGS?</summary>
 
 <!-- Answer will be added later -->
 
@@ -144,28 +137,28 @@
 ## Scaling & Failure Handling
 
 <details>
-<summary>18. How would you shard the URL database — what shard key makes sense (short URL hash vs range-based), why is the short URL key better than the long URL for sharding, how do you handle hot shards when a viral URL's analytics data concentrates on one shard, and what rebalancing strategy do you use when adding new shards?</summary>
+<summary>17. How would you shard the URL database — what shard key makes sense (short URL hash vs range-based), why is the short URL key better than the long URL for sharding, how do you handle hot shards when a viral URL's analytics data concentrates on one shard, and what rebalancing strategy do you use when adding new shards?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>19. Design the distributed caching layer — why does consistent hashing matter for cache node addition/removal, how do you handle cache warming after a cold start or node failure, what is the tradeoff between cache replication (higher availability, more memory) and single-copy caching (less memory, cache miss on failure), and how do you size the cache cluster for a read-heavy workload?</summary>
+<summary>18. Design the distributed caching layer — why does consistent hashing matter for cache node addition/removal, how do you handle cache warming after a cold start or node failure, what is the tradeoff between cache replication (higher availability, more memory) and single-copy caching (less memory, cache miss on failure), and how do you size the cache cluster for a read-heavy workload?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>20. Why must the application tier be stateless for a URL shortener and how do you achieve this — what state (if any) do application servers hold, how does statelessness enable horizontal scaling behind a load balancer, and what load balancing strategy (round-robin, least connections, consistent hashing) works best for the read-heavy redirect traffic vs the write traffic?</summary>
+<summary>19. Why must the application tier be stateless for a URL shortener and how do you achieve this — what state (if any) do application servers hold, how does statelessness enable horizontal scaling behind a load balancer, and what load balancing strategy (round-robin, least connections, consistent hashing) works best for the read-heavy redirect traffic vs the write traffic?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>21. Put the entire design together — draw the complete architecture showing all components (clients, DNS, load balancers, app servers, KGS, cache layer, database, analytics pipeline, abuse prevention) and trace both the write path (URL creation) and read path (redirect) through the system. Identify the single points of failure and explain how each is mitigated.</summary>
+<summary>20. Put the entire design together — draw the complete architecture showing all components (clients, DNS, load balancers, app servers, KGS, cache layer, database, analytics pipeline, abuse prevention) and trace both the write path (URL creation) and read path (redirect) through the system. Identify the single points of failure and explain how each is mitigated.</summary>
 
 <!-- Answer will be added later -->
 

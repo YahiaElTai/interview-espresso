@@ -1,12 +1,12 @@
 # Frontend Architecture
 
-> **27 questions** — 14 theory, 9 practical, 4 experience
+> **25 questions** — 13 theory, 8 practical, 4 experience
 
 - Frontend architecture tradeoffs: when to centralize vs federate, team autonomy vs consistency, build-time coupling vs runtime composition
 - Monorepo strategies: Nx vs Turborepo — task orchestration, caching, dependency graphs
 - Micro-frontends: composition strategies (Module Federation, iframe, server-side), tradeoffs and controversies
 - Cross-app state and data sharing: shared state boundaries in monorepos, server state vs client state at the architecture level, API layer patterns (shared SDK, GraphQL federation)
-- Design systems: tokens, primitives, composed components, versioning, governance, token pipelines (Style Dictionary, CSS custom properties, TypeScript theme objects)
+- Design systems: tokens, primitives, composed components, versioning, governance
 - Testing at scale: Vitest, Testing Library, Playwright — test trophy balance, flaky E2E diagnosis and stabilization, test isolation patterns
 - Build tooling: Vite vs webpack — dev server, production builds, migration tradeoffs
 - Module boundaries: ESLint import restrictions, Nx module boundary rules, TypeScript path constraints, workspace constraints — preventing cross-app imports
@@ -62,56 +62,49 @@
 </details>
 
 <details>
-<summary>7. Why do design systems need a token pipeline (Style Dictionary, CSS custom properties, TypeScript theme objects) instead of just hardcoding values — how does a token pipeline work end to end from design tool to multi-platform output, and what are the tradeoffs between CSS custom properties and TypeScript theme objects as the consumption format?</summary>
+<summary>7. How do Vite and webpack differ architecturally in their dev server approach and production build pipeline — why is Vite's native ESM dev server faster, what does webpack still do better for certain use cases, and what are the real migration tradeoffs when moving an existing webpack project to Vite?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>8. How do Vite and webpack differ architecturally in their dev server approach and production build pipeline — why is Vite's native ESM dev server faster, what does webpack still do better for certain use cases, and what are the real migration tradeoffs when moving an existing webpack project to Vite?</summary>
+<summary>8. Why do large frontend codebases need explicit module boundaries and dependency rules — what happens without them, what enforcement strategies exist (ESLint rules, Nx module boundaries, TypeScript path restrictions, workspace constraints), and how do you design boundaries that match team ownership without creating excessive coupling or duplication?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>9. Why do large frontend codebases need explicit module boundaries and dependency rules — what happens without them, what enforcement strategies exist (ESLint rules, Nx module boundaries, TypeScript path restrictions, workspace constraints), and how do you design boundaries that match team ownership without creating excessive coupling or duplication?</summary>
+<summary>9. How should you balance unit tests, integration tests, and E2E tests in a large frontend codebase — why has the "testing trophy" replaced the "testing pyramid" for frontend, what does each layer of the trophy actually test, and what testing strategy gives the best confidence-to-maintenance-cost ratio at scale?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>10. How should you balance unit tests, integration tests, and E2E tests in a large frontend codebase — why has the "testing trophy" replaced the "testing pyramid" for frontend, what does each layer of the trophy actually test, and what testing strategy gives the best confidence-to-maintenance-cost ratio at scale?</summary>
+<summary>10. How do Vitest, Testing Library, and Playwright each fit into the frontend testing stack — what layer does each tool own, where do their responsibilities overlap, and what are the tradeoffs of standardizing on this stack vs alternatives (Jest, Cypress, WebdriverIO)?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>11. How do Vitest, Testing Library, and Playwright each fit into the frontend testing stack — what layer does each tool own, where do their responsibilities overlap, and what are the tradeoffs of standardizing on this stack vs alternatives (Jest, Cypress, WebdriverIO)?</summary>
+<summary>11. Why are E2E tests disproportionately flaky compared to unit and integration tests — what are the main categories of flakiness (timing/race conditions, test isolation, environment differences, third-party dependencies), what stabilization patterns actually work vs just masking the problem, and when should you delete a flaky test instead of fixing it?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>12. Why are E2E tests disproportionately flaky compared to unit and integration tests — what are the main categories of flakiness (timing/race conditions, test isolation, environment differences, third-party dependencies), what stabilization patterns actually work vs just masking the problem, and when should you delete a flaky test instead of fixing it?</summary>
+<summary>12. How should you handle cross-app state and data sharing in a frontend monorepo — where should the boundaries be between shared state and app-local state, how does the distinction between server state (React Query, SWR) and client state (Zustand, Redux) affect architecture decisions, and what are the tradeoffs of API layer patterns like a shared SDK vs GraphQL federation for data access across apps?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>13. How should you handle cross-app state and data sharing in a frontend monorepo — where should the boundaries be between shared state and app-local state, how does the distinction between server state (React Query, SWR) and client state (Zustand, Redux) affect architecture decisions, and what are the tradeoffs of API layer patterns like a shared SDK vs GraphQL federation for data access across apps?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>14. What are the key deployment architecture decisions for a frontend application — when should you choose static hosting vs SSR, how do CDN caching and cache invalidation strategies differ between the two, and why is the choice between injecting environment variables at build time vs runtime an architectural decision that is hard to change later?</summary>
+<summary>13. What are the key deployment architecture decisions for a frontend application — when should you choose static hosting vs SSR, how do CDN caching and cache invalidation strategies differ between the two, and why is the choice between injecting environment variables at build time vs runtime an architectural decision that is hard to change later?</summary>
 
 <!-- Answer will be added later -->
 
@@ -120,21 +113,14 @@
 ## Practical — Configuration & Implementation
 
 <details>
-<summary>15. Set up an Nx or Turborepo monorepo with multiple frontend apps and shared libraries — show the workspace configuration, demonstrate affected-only test execution and remote caching setup, and explain what configuration mistakes lead to cache misses that silently defeat the performance benefits.</summary>
+<summary>14. Set up an Nx or Turborepo monorepo with multiple frontend apps and shared libraries — show the workspace configuration, demonstrate affected-only test execution and remote caching setup, and explain what configuration mistakes lead to cache misses that silently defeat the performance benefits.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>16. Configure Module Federation for a micro-frontend setup where a host app loads remote modules at runtime — show the webpack or Vite plugin configuration for both host and remote, explain how shared dependencies (React, shared state) are handled to avoid duplication, and what breaks when version mismatches occur between host and remote.</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>17. Build a design token pipeline using Style Dictionary — show the token definition format, the Style Dictionary configuration that outputs CSS custom properties and TypeScript theme objects, and explain how this pipeline integrates into the build process so that token changes propagate to all consuming applications automatically.</summary>
+<summary>15. Configure Module Federation for a micro-frontend setup where a host app loads remote modules at runtime — show the webpack or Vite plugin configuration for both host and remote, explain how shared dependencies (React, shared state) are handled to avoid duplication, and what breaks when version mismatches occur between host and remote.</summary>
 
 <!-- Answer will be added later -->
 
@@ -143,28 +129,28 @@
 ## Practical — CI & Production Workflows
 
 <details>
-<summary>18. Design a CI pipeline for a frontend monorepo that runs affected-only testing, uses remote caching, and parallelizes E2E tests across multiple workers — show the pipeline configuration (CircleCI or GitHub Actions), explain how the "affected" calculation works when a shared library changes, and what safeguards prevent a cache corruption from silently passing broken builds.</summary>
+<summary>16. Design a CI pipeline for a frontend monorepo that runs affected-only testing, uses remote caching, and parallelizes E2E tests across multiple workers — show the pipeline configuration (CircleCI or GitHub Actions), explain how the "affected" calculation works when a shared library changes, and what safeguards prevent a cache corruption from silently passing broken builds.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>19. Configure Vite for a production React application — show the vite.config.ts with chunking strategy, dependency pre-bundling, environment variables, and proxy setup, then show the equivalent webpack configuration for the same setup and explain which parts of the migration are straightforward vs which require workarounds.</summary>
+<summary>17. Configure Vite for a production React application — show the vite.config.ts with chunking strategy, dependency pre-bundling, environment variables, and proxy setup, then show the equivalent webpack configuration for the same setup and explain which parts of the migration are straightforward vs which require workarounds.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>20. Enforce module boundaries and dependency rules in a monorepo — show how to configure Nx module boundary rules (or ESLint import restrictions for Turborepo), set up workspace-level constraints that prevent apps from importing from other apps, and demonstrate what happens when a developer violates these rules in their IDE and in CI.</summary>
+<summary>18. Enforce module boundaries and dependency rules in a monorepo — show how to configure Nx module boundary rules (or ESLint import restrictions for Turborepo), set up workspace-level constraints that prevent apps from importing from other apps, and demonstrate what happens when a developer violates these rules in their IDE and in CI.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>21. Set up a frontend deployment pipeline that deploys to a CDN with proper cache invalidation, creates preview environments for each PR, and handles environment variable injection at runtime instead of build time — show the configuration and explain what breaks when teams hardcode environment variables at build time and need to promote the same artifact across environments.</summary>
+<summary>19. Set up a frontend deployment pipeline that deploys to a CDN with proper cache invalidation, creates preview environments for each PR, and handles environment variable injection at runtime instead of build time — show the configuration and explain what breaks when teams hardcode environment variables at build time and need to promote the same artifact across environments.</summary>
 
 <!-- Answer will be added later -->
 
@@ -173,14 +159,14 @@
 ## Practical — Debugging & Troubleshooting
 
 <details>
-<summary>22. An E2E test suite is failing intermittently — about 10% of runs fail with different tests each time. Walk through the systematic diagnosis: identifying timing-dependent assertions, checking for test isolation failures (shared state, database/API leakage between tests), handling network request flakiness, and deciding between retry strategies vs proper fixes. Show Playwright-specific debugging techniques.</summary>
+<summary>20. An E2E test suite is failing intermittently — about 10% of runs fail with different tests each time. Walk through the systematic diagnosis: identifying timing-dependent assertions, checking for test isolation failures (shared state, database/API leakage between tests), handling network request flakiness, and deciding between retry strategies vs proper fixes. Show Playwright-specific debugging techniques.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>23. A design system component update (new major version) is breaking multiple consuming applications with different errors — walk through how to diagnose whether the breaks are from changed props, removed tokens, CSS specificity changes, or peer dependency mismatches, and explain the release process that should have prevented this (changesets, visual regression testing, migration codemods).</summary>
+<summary>21. A design system component update (new major version) is breaking multiple consuming applications with different errors — walk through how to diagnose whether the breaks are from changed props, removed tokens, CSS specificity changes, or peer dependency mismatches, and explain the release process that should have prevented this (changesets, visual regression testing, migration codemods).</summary>
 
 <!-- Answer will be added later -->
 
@@ -193,28 +179,28 @@
 These questions test real-world experience. Prepare by mapping them to your own projects and situations.
 
 <details>
-<summary>24. Tell me about a time you designed or significantly refactored a frontend monorepo structure — what drove the decision, how did you handle the migration, and what would you do differently knowing what you know now?</summary>
+<summary>22. Tell me about a time you designed or significantly refactored a frontend monorepo structure — what drove the decision, how did you handle the migration, and what would you do differently knowing what you know now?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
 <details>
-<summary>25. Describe a time you built or evolved a design system that multiple teams consumed — how did you handle governance, versioning, and adoption, and what was the hardest part about scaling it across teams?</summary>
+<summary>23. Describe a time you built or evolved a design system that multiple teams consumed — how did you handle governance, versioning, and adoption, and what was the hardest part about scaling it across teams?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
 <details>
-<summary>26. Tell me about a time you diagnosed and fixed a persistent CI or build performance problem in a frontend codebase — what were the symptoms, what was the root cause, and what measurable improvement did you achieve?</summary>
+<summary>24. Tell me about a time you diagnosed and fixed a persistent CI or build performance problem in a frontend codebase — what were the symptoms, what was the root cause, and what measurable improvement did you achieve?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
 <details>
-<summary>27. Describe a time you had to make a build-vs-buy decision for frontend infrastructure tooling (monorepo tool, design system, testing framework, CI setup) — what factors drove your decision, and how did it play out?</summary>
+<summary>25. Describe a time you had to make a build-vs-buy decision for frontend infrastructure tooling (monorepo tool, design system, testing framework, CI setup) — what factors drove your decision, and how did it play out?</summary>
 
 <!-- Answer framework will be added later -->
 

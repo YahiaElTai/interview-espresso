@@ -1,6 +1,6 @@
 # System Design Fundamentals
 
-> **29 questions**
+> **25 questions**
 
 - Interview framework: requirement gathering (functional/non-functional), estimation, API definition, high-level design, deep dive — pacing and interviewer communication
 - Back-of-the-envelope estimation: powers of two, QPS, storage, bandwidth, latency numbers
@@ -15,7 +15,7 @@
 - Database scaling: horizontal vs vertical scaling, read replicas, sharding, federation, denormalization
 - Sharding strategies: hash-based, range-based, directory-based, consistent hashing
 - Rate limiting: token bucket, sliding window, fixed window — client-side vs server-side, distributed rate limiting
-- Failure modes: network partitions, cascading failures, thundering herd, single points of failure
+- Failure modes: network partitions, cascading failures, single points of failure
 - Designing for the common case: read-heavy vs write-heavy identification, hot spots, avoiding premature optimization, latency vs throughput tradeoffs
 
 ---
@@ -141,14 +141,7 @@
 </details>
 
 <details>
-<summary>17. Why does multi-leader replication introduce conflict resolution challenges that single-leader avoids -- what types of conflicts arise (write-write, ordering), what resolution strategies exist (last-writer-wins, custom merge logic, CRDTs), and how do leaderless systems like Dynamo-style databases handle read/write quorums to manage consistency?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>18. How do you decide between SQL and NoSQL in a system design — what are the real selection criteria (data model, query patterns, consistency requirements, scale characteristics, team expertise) beyond the surface-level "SQL for relational, NoSQL for everything else," and what are common mistakes teams make when choosing, and what are the consequences?</summary>
+<summary>17. How do you decide between SQL and NoSQL in a system design — what are the real selection criteria (data model, query patterns, consistency requirements, scale characteristics, team expertise) beyond the surface-level "SQL for relational, NoSQL for everything else," and what are common mistakes teams make when choosing, and what are the consequences?</summary>
 
 <!-- Answer will be added later -->
 
@@ -157,35 +150,28 @@
 ## Scaling & Partitioning
 
 <details>
-<summary>19. How do you decide between vertical and horizontal scaling in a system design -- what are the limits of each approach, why is vertical scaling often the right first step, and what signals tell you it is time to move to horizontal scaling?</summary>
+<summary>18. How do you decide between vertical and horizontal scaling in a system design -- what are the limits of each approach, why is vertical scaling often the right first step, and what signals tell you it is time to move to horizontal scaling?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>20. What are the database-specific scaling strategies (read replicas, federation, denormalization) -- explain when each approach is appropriate, why read replicas only help read-heavy workloads, and how federation and denormalization trade normalization for scale?</summary>
+<summary>19. What are the database-specific scaling strategies (read replicas, federation, denormalization) -- explain when each approach is appropriate, why read replicas only help read-heavy workloads, and how federation and denormalization trade normalization for scale?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>21. How do sharding strategies (hash-based, range-based, directory-based) work, what are the tradeoffs of each — when does hash-based sharding cause hot spots, when does range-based sharding suffer from uneven distribution, and why is directory-based sharding more flexible but introduces a single point of failure?</summary>
+<summary>20. How do sharding strategies (hash-based, range-based, directory-based) work, what are the tradeoffs of each — when does hash-based sharding cause hot spots, when does range-based sharding suffer from uneven distribution, and why is directory-based sharding more flexible but introduces a single point of failure?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>22. How does consistent hashing work and why is it critical for distributed systems — explain the problem it solves (minimizing data movement when nodes are added or removed), how virtual nodes improve load distribution, and where consistent hashing appears in practice (load balancers, distributed caches, partitioned databases)?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>23. What are the operational challenges of sharding that teams underestimate — how do cross-shard queries work (scatter-gather), what happens when you need to re-shard, how do you handle joins across shards, and why should sharding be a last resort after exhausting vertical scaling, read replicas, and caching?</summary>
+<summary>21. How does consistent hashing work and why is it critical for distributed systems — explain the problem it solves (minimizing data movement when nodes are added or removed), how virtual nodes improve load distribution, and where consistent hashing appears in practice (load balancers, distributed caches, partitioned databases)?</summary>
 
 <!-- Answer will be added later -->
 
@@ -194,21 +180,14 @@
 ## Availability & Failure Modes
 
 <details>
-<summary>24. What are network partitions and single points of failure in distributed systems -- why do network partitions happen even within a single data center, how do they force the consistency-vs-availability tradeoff, and how do you identify and eliminate single points of failure in a system design?</summary>
+<summary>22. What are network partitions and single points of failure in distributed systems -- why do network partitions happen even within a single data center, how do they force the consistency-vs-availability tradeoff, and how do you identify and eliminate single points of failure in a system design?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>25. How do cascading failures propagate through a system and what design patterns prevent them — explain how a single slow dependency can take down an entire service fleet, why timeouts alone are insufficient, and how circuit breakers, bulkheads, and graceful degradation work together to contain failures?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>26. What is the thundering herd problem, where does it commonly occur in system design (cache expiry, service restarts, retry storms), and what are the specific techniques to prevent it — explain cache stampede prevention (locking, probabilistic early expiry), request coalescing, and jittered exponential backoff?</summary>
+<summary>23. How do cascading failures propagate through a system and what design patterns prevent them — explain how a single slow dependency can take down an entire service fleet, why timeouts alone are insufficient, and how circuit breakers, bulkheads, and graceful degradation work together to contain failures?</summary>
 
 <!-- Answer will be added later -->
 
@@ -217,23 +196,15 @@
 ## Applied Design Reasoning
 
 <details>
-<summary>27. Given a system that needs to handle 10,000 writes per second with each record averaging 1 KB — walk through the back-of-the-envelope estimation for daily storage, monthly storage, read QPS assuming a 10:1 read-to-write ratio, bandwidth requirements, and how these numbers influence whether you need sharding, caching, or a CDN. Show your math and explain which numbers matter most for the design.</summary>
+<summary>24. Given a system that needs to handle 10,000 writes per second with each record averaging 1 KB — walk through the back-of-the-envelope estimation for daily storage, monthly storage, read QPS assuming a 10:1 read-to-write ratio, bandwidth requirements, and how these numbers influence whether you need sharding, caching, or a CDN. Show your math and explain which numbers matter most for the design.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>28. You're designing a system where users upload images and other users view them — walk through how you would combine building blocks (blob storage, CDN, metadata database, message queue for processing) into a coherent architecture, explain why each building block was chosen over alternatives, and identify where caching belongs and which consistency model applies to each data path.</summary>
+<summary>25. You're designing a system where users upload images and other users view them — walk through how you would combine building blocks (blob storage, CDN, metadata database, message queue for processing) into a coherent architecture, explain why each building block was chosen over alternatives, and identify where caching belongs and which consistency model applies to each data path.</summary>
 
 <!-- Answer will be added later -->
 
 </details>
-
-<details>
-<summary>29. You're designing a system that is read-heavy (100:1 read-to-write ratio) with a global user base — walk through how you would layer the building blocks (DNS-based routing, CDN, load balancers, read replicas, caching) to minimize read latency, explain the consistency tradeoffs at each layer, and identify which failure modes are most likely and how you would handle them.</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
