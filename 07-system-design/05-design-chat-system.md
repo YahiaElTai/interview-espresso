@@ -1,6 +1,6 @@
 # System Design: Chat System
 
-> **29 questions**
+> **18 questions**
 
 - Requirements and estimation: daily message volume, peak concurrent WebSocket connections, storage growth per year, read-to-write ratio, bandwidth per connection
 - API design: REST endpoints and WebSocket event schemas
@@ -13,16 +13,9 @@
 - Message routing: centralized connection registry (Redis), pub/sub, consistent hashing
 - Message ordering: per-conversation ordering, sequence numbers, server-assigned timestamps
 - Delivery guarantees: sent/delivered/read, at-least-once, idempotency keys, deduplication
-- End-to-end encryption: key exchange, envelope encryption, tradeoffs (no server-side search, key management), why some systems skip it
 - WebSocket gateway: connection lifecycle, JWT auth handshake, heartbeats, reconnection
 - Read receipts, typing indicators, and unread counts: event flow, per-user read positions, throttling for large groups
-- Presence system: heartbeat-based online/offline, fanout vs pull model
-- Push notifications: offline delivery, APNs/FCM integration, group notification batching
-- Rate limiting and abuse prevention: per-user message rate limits, spam detection, content moderation pipeline
-- Media and content features: file/image uploads via pre-signed URLs, thumbnail generation, message search (full-text indexing), message editing and deletion (soft delete, tombstones)
-- Multi-device sync: catch-up on missed messages, cross-device read state
 - Scaling WebSocket servers: graceful draining, sticky sessions vs connection registry
-- Multi-region deployment: latency, message ordering across regions, active-active vs active-passive
 - Failure scenarios: gateway failure (reconnection + catch-up), message store unavailability (write-ahead queue, retry), presence service crash (graceful degradation, stale state TTL)
 
 ---
@@ -138,101 +131,24 @@
 
 </details>
 
-<details>
-<summary>16. Design the typing indicator feature — what is the event flow between clients and the server, why must typing indicators be ephemeral and throttled rather than persisted, what timeout and debounce logic prevents indicator flickering, and why do most large-scale chat systems disable or heavily limit typing indicators in large groups?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>17. Design the presence system that shows online/offline status — how does heartbeat-based presence detection work (heartbeat interval, timeout threshold, grace period), what is the difference between a fanout model (push presence changes to all contacts) vs a pull model (query presence on demand), why is presence one of the hardest features to scale, and what approximations do large-scale systems make?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>18. Design push notification delivery for offline users — how does the system detect that a user is offline and trigger a push notification through APNs (iOS) or FCM (Android), what information goes in the notification payload, how do you handle group notification batching (avoid sending 50 separate notifications for 50 messages in a busy group), and what delivery guarantees can you realistically offer for push notifications?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>19. Design media message handling — how do pre-signed URLs work for uploading images/videos directly to object storage (bypassing the chat server), how do you generate and store thumbnails for preview, what metadata gets stored in the message record, and how does the recipient's client know to fetch and render a media message differently from a text message?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>20. How would you add full-text message search to the chat system — why is the primary NoSQL message store insufficient for search, what indexing strategy would you use (Elasticsearch, dedicated search index), how do you handle indexing at scale (real-time vs batch), what access control is needed to ensure users only search their own conversations, and what are the tradeoffs of server-side search vs client-side search for end-to-end encrypted messages?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>21. How would you implement message editing and deletion — what consistency challenges arise when a user edits or deletes a message that has already been delivered to recipients, how does soft delete with tombstones work, how do "delete for everyone" semantics propagate across multiple devices and offline clients, and what happens if the delete event arrives before the original message on a slow device?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>22. Design multi-device sync so a user's messages, read state, and conversation list stay consistent across phone, tablet, and desktop — how does a device that was offline for hours catch up on missed messages without re-downloading everything, how do you synchronize read positions across devices (if I read a message on my phone, my desktop should mark it read too), and what conflict resolution is needed when two devices act simultaneously?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>23. Design end-to-end encryption for the chat system — how does key exchange work between users (e.g., Signal Protocol's double ratchet or simpler asymmetric key exchange), what is envelope encryption and why is it used instead of encrypting directly with the recipient's key, what features does E2E encryption break (server-side search, content moderation, link previews), and why do many chat systems (Slack, Discord) deliberately skip E2E encryption — what are the tradeoffs?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>24. Design the rate limiting and abuse prevention layer for the chat system — how do you implement per-user message rate limits (at the gateway vs the chat service), what strategies detect spam or abusive content (keyword filters, ML-based classification, user reporting), how does a content moderation pipeline work (pre-send vs post-send moderation, human review queue), and what are the tradeoffs of blocking messages before delivery vs flagging them after delivery?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
 ## Scaling & Failure Handling
 
 <details>
-<summary>25. How do you scale a fleet of WebSocket gateway servers — why is scaling stateful WebSocket connections fundamentally different from scaling stateless HTTP services, how does graceful connection draining work during deployments (move connections without dropping messages), and what are the tradeoffs of sticky sessions (routing a user to the same server) vs a connection registry (any server can route to any user)?</summary>
+<summary>16. How do you scale a fleet of WebSocket gateway servers — why is scaling stateful WebSocket connections fundamentally different from scaling stateless HTTP services, how does graceful connection draining work during deployments (move connections without dropping messages), and what are the tradeoffs of sticky sessions (routing a user to the same server) vs a connection registry (any server can route to any user)?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>26. Design a multi-region deployment for the chat system — how do you minimize message delivery latency for users in different geographies, what happens to message ordering guarantees when two users in the same conversation are connected to servers in different regions, and what are the tradeoffs of active-active (both regions handle writes) vs active-passive (one region is primary) for a chat system specifically?</summary>
+<summary>17. A WebSocket gateway server crashes and 50,000 users lose their connections simultaneously — walk through what happens: how do clients detect the failure and reconnect, how does the connection registry get cleaned up (stale entries), how do messages sent during the outage get buffered and delivered, and what design choices prevent this from cascading into a "thundering herd" that crashes other gateway servers?</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>27. A WebSocket gateway server crashes and 50,000 users lose their connections simultaneously — walk through what happens: how do clients detect the failure and reconnect, how does the connection registry get cleaned up (stale entries), how do messages sent during the outage get buffered and delivered, and what design choices prevent this from cascading into a "thundering herd" that crashes other gateway servers?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>28. The message store (e.g., Cassandra cluster) becomes temporarily unavailable — how does the system degrade gracefully so users can still send and receive real-time messages even if chat history is inaccessible, what buffering or write-ahead strategies prevent message loss during the outage, and how do you reconcile buffered messages once the store recovers?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>29. The presence service crashes — what is the user-visible impact, how does the rest of the system continue operating without presence data, what happens when the service recovers (how does it rebuild accurate presence state from scratch when it has no persistent store of who is online), and why should presence be designed as a best-effort system rather than a strongly consistent one?</summary>
+<summary>18. The message store (e.g., Cassandra cluster) becomes temporarily unavailable — how does the system degrade gracefully so users can still send and receive real-time messages even if chat history is inaccessible, what buffering or write-ahead strategies prevent message loss during the outage, and how do you reconcile buffered messages once the store recovers?</summary>
 
 <!-- Answer will be added later -->
 

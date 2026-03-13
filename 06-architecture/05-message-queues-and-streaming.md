@@ -1,23 +1,18 @@
 # Message Queues & Streaming
 
-> **36 questions** — 18 theory, 18 practical
+> **26 questions** — 14 theory, 9 practical, 3 experience
 
 - Message queues vs event streams: fundamental differences and when to use each
 - Delivery guarantees: at-most-once, at-least-once, exactly-once tradeoffs and why exactly-once is hard
 - When to use messaging vs alternatives: HTTP calls, database-backed jobs, cron, task queues (Bull/BullMQ) as a middle ground — signs a queue adds value vs signs it's overkill
 - Queue vs topic/pub-sub semantics: competing consumers vs fan-out, SNS+SQS pattern, RabbitMQ exchanges, Kafka topics, Pub/Sub subscriptions
 - Kafka architecture: append-only log, partitioning, partition key strategy (per-entity, per-tenant, hot partitions), ordering guarantees, rebalancing
-- Offset management and replay: committed offsets, offset reset policies (earliest/latest), rewinding consumers, compacted topics for latest-state lookups
 - Ordering vs parallelism: why you can't have both easily, partition-level ordering, and when to relax ordering
 - Consumer groups: Kafka partition assignment, Pub/Sub subscriptions, SQS visibility timeout, failure modes
 - Idempotent message processing: deduplication IDs, idempotent writes, transactional outbox pattern
 - Backpressure and flow control: consumer lag, prefetch limits, pull vs push consumers, visibility timeout tuning
 - Dead letter queues: routing failed messages, triage strategies, replay and reprocessing
-- Retry strategies and ordering during failures: retry topics, exponential backoff at the broker level, delayed redelivery, how retries break ordering and mitigation patterns
 - Message serialization: JSON vs Avro vs Protobuf, schema evolution, schema registries
-- Cloud-managed services: Pub/Sub (push/pull, ordering keys, ack deadlines), SQS/SNS (visibility timeout, Lambda triggers), MSK — when managed wins over self-hosted
-- Poison messages: detection strategies, circuit-breaking on repeated failures, relationship to DLQ routing and replay
-- Operational monitoring: consumer lag and partition lag, broker health metrics, stuck consumer detection, alerting thresholds for queue depth and processing latency
 
 ---
 
@@ -123,103 +118,45 @@
 
 </details>
 
-<details>
-<summary>15. What are the key architectural differences between GCP Pub/Sub, AWS SQS/SNS, and managed Kafka (MSK) — how do their delivery models, ordering guarantees, and scaling mechanisms differ, and what constraints does each impose on your consumer design?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>16. When should you choose a managed messaging service over self-hosted — what operational burden does self-hosted Kafka impose that managed services eliminate, what control do you give up, and what are the cost inflection points where managed stops being cheaper?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>17. How does Kafka's offset management work and why is it central to replay capability — what are committed offsets, how do offset reset policies (earliest vs latest) affect consumer behavior on restart, when would you rewind a consumer group to reprocess messages, and what are compacted topics and how do they provide latest-state lookups instead of full event history?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>18. How do retry strategies work in messaging systems and why do retries fundamentally break message ordering — what are retry topics and delayed redelivery queues, how does exponential backoff work at the broker level (vs application level), and what patterns (separate retry topics, per-partition retry, dead letter routing) let you retry failed messages without blocking the rest of the partition?</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
 ## Practical — Queue Configuration & Patterns
 
 <details>
-<summary>19. Set up a Kafka topic with proper partitioning for an order processing system — choose the partition key strategy (order ID for per-entity ordering), configure the producer with appropriate acks and retries, set up a consumer group, and demonstrate what happens when you add a consumer to the group (rebalancing)</summary>
+<summary>15. Set up a Kafka topic with proper partitioning for an order processing system — choose the partition key strategy (order ID for per-entity ordering), configure the producer with appropriate acks and retries, set up a consumer group, and demonstrate what happens when you add a consumer to the group (rebalancing)</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>20. Implement an idempotent message consumer that handles at-least-once delivery — show the consumer code that uses a deduplication ID stored in the database, wraps processing in a transaction, and handles the case where the same message arrives twice. Compare this with using the transactional outbox pattern on the producer side</summary>
+<summary>16. Implement an idempotent message consumer that handles at-least-once delivery — show the consumer code that uses a deduplication ID stored in the database, wraps processing in a transaction, and handles the case where the same message arrives twice. Compare this with using the transactional outbox pattern on the producer side</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>21. Configure competing consumers and fan-out for the same event stream — show how to set up a Kafka topic where order events are consumed by both a shipping service (competing consumers sharing the work) and an analytics service (independent consumer group seeing all events), and explain why consumer groups enable this pattern</summary>
+<summary>17. Configure competing consumers and fan-out for the same event stream — show how to set up a Kafka topic where order events are consumed by both a shipping service (competing consumers sharing the work) and an analytics service (independent consumer group seeing all events), and explain why consumer groups enable this pattern</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>22. Set up a dead letter queue with proper routing — show the configuration that routes messages to a DLQ after N failed attempts, implement a DLQ consumer that logs failed messages with context for triage, and demonstrate how to replay messages from the DLQ back to the original queue after fixing the issue</summary>
+<summary>18. Set up a dead letter queue with proper routing — show the configuration that routes messages to a DLQ after N failed attempts, implement a DLQ consumer that logs failed messages with context for triage, and demonstrate how to replay messages from the DLQ back to the original queue after fixing the issue</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>23. Implement message serialization with schema evolution — show a Protobuf or Avro message definition, demonstrate adding a new optional field (backward-compatible), show how a consumer running the old schema handles messages with the new field, and explain what happens with a breaking change (removing a required field)</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-## Practical — Cloud Services & Production
-
-<details>
-<summary>24. Set up GCP Pub/Sub for an event-driven workflow — configure a topic with ordering keys for per-entity ordering, create push and pull subscriptions, set appropriate ack deadlines, and demonstrate what happens when a message isn't acknowledged within the deadline</summary>
+<summary>19. Implement message serialization with schema evolution — show a Protobuf or Avro message definition, demonstrate adding a new optional field (backward-compatible), show how a consumer running the old schema handles messages with the new field, and explain what happens with a breaking change (removing a required field)</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>25. Set up AWS SQS with SNS fan-out — configure an SNS topic that fans out to multiple SQS queues, set the visibility timeout and max receive count for DLQ routing, and show how to trigger a Lambda function from SQS. Explain the FIFO queue option and when you'd use it vs standard queues</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>26. Implement poison message detection and circuit-breaking for a Kafka consumer — show the consumer code that tracks per-message failure counts, routes messages to a DLQ after N failures, and implements a circuit breaker that pauses consumption when the failure rate exceeds a threshold. Explain how this prevents a single bad message from blocking the entire partition</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>27. Configure backpressure handling for a consumer that processes messages slower than the producer publishes — show consumer lag monitoring, configure prefetch/batch limits to prevent memory exhaustion, implement autoscaling consumers based on lag metrics, and explain when to apply backpressure to the producer instead</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>28. Set up operational monitoring for a Kafka cluster and its consumers — show the key metrics to track (consumer lag per partition, broker disk usage, under-replicated partitions, request latency), configure alerting thresholds for consumer lag and queue depth, and demonstrate how to detect a stuck consumer that is connected but not making progress</summary>
+<summary>20. Configure backpressure handling for a consumer that processes messages slower than the producer publishes — show consumer lag monitoring, configure prefetch/batch limits to prevent memory exhaustion, implement autoscaling consumers based on lag metrics, and explain when to apply backpressure to the producer instead</summary>
 
 <!-- Answer will be added later -->
 
@@ -228,28 +165,21 @@
 ## Practical — Troubleshooting & Decision-Making
 
 <details>
-<summary>29. Consumer lag is growing steadily on a Kafka topic — walk through the diagnosis: check if it's a slow consumer (processing bottleneck), uneven partition distribution (hot partition from a skewed key), consumer rebalancing storms, or insufficient consumer instances. Show the commands and metrics for each check</summary>
+<summary>21. Consumer lag is growing steadily on a Kafka topic — walk through the diagnosis: check if it's a slow consumer (processing bottleneck), uneven partition distribution (hot partition from a skewed key), consumer rebalancing storms, or insufficient consumer instances. Show the commands and metrics for each check</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>30. Messages are being processed multiple times causing duplicate records — walk through the diagnosis: determine if it's caused by visibility timeout too short (SQS), consumer rebalancing (Kafka), long processing time exceeding ack deadline (Pub/Sub), or a missing idempotency check. Show the fix for each scenario</summary>
+<summary>22. Messages are being processed multiple times causing duplicate records — walk through the diagnosis: determine if it's caused by visibility timeout too short (SQS), consumer rebalancing (Kafka), long processing time exceeding ack deadline (Pub/Sub), or a missing idempotency check. Show the fix for each scenario</summary>
 
 <!-- Answer will be added later -->
 
 </details>
 
 <details>
-<summary>31. A Kafka partition has a poison message that causes consumers to crash and rebalance in a loop — walk through identifying the poison message, implementing a circuit breaker that routes it to a DLQ after N attempts, and preventing this pattern from blocking the entire consumer group</summary>
-
-<!-- Answer will be added later -->
-
-</details>
-
-<details>
-<summary>32. Your team is building an order processing system that needs strict per-customer ordering, replay capability for reprocessing failed batches, and must handle 10K events/second — evaluate Kafka, GCP Pub/Sub, and SQS/SNS against these requirements, show the architecture sketch for each option, and justify your final recommendation with specific tradeoffs (cost, operational burden, ordering guarantees, replay support)</summary>
+<summary>23. Your team is building an order processing system that needs strict per-customer ordering, replay capability for reprocessing failed batches, and must handle 10K events/second — evaluate Kafka, GCP Pub/Sub, and SQS/SNS against these requirements, show the architecture sketch for each option, and justify your final recommendation with specific tradeoffs (cost, operational burden, ordering guarantees, replay support)</summary>
 
 <!-- Answer will be added later -->
 
@@ -262,29 +192,23 @@
 These questions test real-world experience. Prepare by mapping them to your own projects and situations.
 
 <details>
-<summary>33. Tell me about a time you introduced a message queue or streaming platform to a system — what problem were you solving, what technology did you choose and why, and what unexpected challenges did you encounter?</summary>
+<summary>24. Tell me about a time you introduced a message queue or streaming platform to a system — what problem were you solving, what technology did you choose and why, and what unexpected challenges did you encounter?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
 <details>
-<summary>34. Describe a time you dealt with message ordering, duplication, or loss in production — what was the symptom, how did you diagnose it, and what changes did you make to prevent recurrence?</summary>
+<summary>25. Describe a time you dealt with message ordering, duplication, or loss in production — what was the symptom, how did you diagnose it, and what changes did you make to prevent recurrence?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
 <details>
-<summary>35. Tell me about a time you had to scale a messaging system to handle significantly more traffic — what was the bottleneck, what approach did you take (more partitions, more consumers, different technology), and what tradeoffs did you accept?</summary>
+<summary>26. Tell me about a time you had to scale a messaging system to handle significantly more traffic — what was the bottleneck, what approach did you take (more partitions, more consumers, different technology), and what tradeoffs did you accept?</summary>
 
 <!-- Answer framework will be added later -->
 
 </details>
 
-<details>
-<summary>36. Describe a time you migrated between messaging technologies or significantly changed your messaging architecture — what drove the change, how did you execute it without losing messages, and what did you learn?</summary>
-
-<!-- Answer framework will be added later -->
-
-</details>
