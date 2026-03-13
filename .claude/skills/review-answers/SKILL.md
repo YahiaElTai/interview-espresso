@@ -68,7 +68,7 @@ For each answer, evaluate against all 5 pillars. Flag violations only — don't 
 
 ### 2. Depth Calibration
 
-Check that answer depth matches question type:
+Check that answer depth matches question type. The section header signals expected depth: `## Foundational` → direct answers; `## Advanced` / `## Practical` → go deep, cover edge cases; `## Experience-Based` → framework format.
 
 - [ ] **Simple conceptual questions**: 2-4 sentences, direct and clear. Flag answers that are bloated for simple questions.
 - [ ] **Comparison/tradeoff questions**: Short intro + comparison (table or bullets) + practical recommendation. Flag answers that just list without comparing or recommending.
@@ -99,7 +99,7 @@ Check that answer depth matches question type:
 
 ### 5. Experience-Based Answer Quality
 
-- [ ] Experience-based answers provide a framework, NOT a scripted answer to memorize
+- [ ] Experience-based answers (and all answers in files with no section headers, like behavioral) provide a framework, NOT a scripted answer to memorize
 - [ ] Each framework includes: what the interviewer is looking for, key points to hit, a suggested structure, and an example outline the reader can personalize
 - [ ] Frameworks are specific to the topic domain (not generic STAR advice)
 - [ ] Frameworks help the reader map the question to their own real experience

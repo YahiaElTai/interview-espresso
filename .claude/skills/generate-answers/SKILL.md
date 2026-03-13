@@ -20,18 +20,20 @@ Apply these to every answer you write:
 1. **Completeness**: Each answer should fully address the question. Cover all important aspects without leaving gaps. Skip obscure trivia.
 2. **Clarity**: Write in direct, plain language — like explaining to a smart colleague. No jargon without explanation, no filler sentences.
 3. **Conciseness**: Words are a budget. Use the minimum needed to fully convey the idea. A short, dense answer beats a long, padded one. Match answer length to question complexity — simple questions get short answers, complex questions get longer ones.
-4. **Accuracy**: Use current, up-to-date information. Use the context7 MCP tool to verify current APIs, syntax, and best practices for specific libraries and tools. No deprecated patterns or outdated advice.
+4. **Accuracy**: Use current, up-to-date information. Use context7 for library APIs, runtime behavior, and version-specific syntax — skip it for stable conceptual topics. No deprecated patterns or outdated advice.
 5. **Practicality**: Ground every answer in real-world engineering. Include code examples (TypeScript/Node.js for backend, React/TypeScript for frontend, HCL for Terraform, YAML for K8s/CI) and configuration snippets where relevant. Explain tradeoffs, not just definitions. Show the WHY, not just the HOW.
 
 ## Answer Guidelines
 
 ### Depth calibration
 
+The section header signals expected depth: `## Foundational` → direct answers; `## Advanced` / `## Practical` → go deep, cover edge cases; `## Experience-Based` → framework format.
+
 - **Simple conceptual questions**: 2-4 sentences. Direct and clear.
 - **Comparison/tradeoff questions**: A short intro, then a comparison (use bullet list if it helps clarity), then a practical recommendation of when to use which.
 - **Practical/implementation questions**: Brief explanation + code example + any gotchas.
 - **Scenario/debugging questions**: Walk through the thought process step by step, as if debugging live.
-- **Architecture questions**: High-level approach, key components, tradeoffs considered, and why you'd choose this approach.
+- **Architecture questions**: High-level approach, key components, tradeoffs considered, and why you'd choose this approach. For system design files, follow the interview arc: requirements → estimation → high-level → deep dive → scaling/failure modes.
 
 ### Code examples
 
@@ -43,13 +45,12 @@ Apply these to every answer you write:
 
 ### Cross-reference awareness
 
-- Read ALL existing answers in the file before writing new ones.
-- If a concept was already explained in a previous answer, reference it briefly ("as covered above in the event loop question") instead of re-explaining it.
-- Do not repeat the same code example or explanation across multiple answers. Each answer should add new knowledge.
+- Scan existing answers for concepts and code already covered — don't re-explain or repeat examples.
+- If a concept was already explained in a previous answer, reference it briefly ("as covered in question N") instead of re-explaining. Each answer should add new knowledge.
 
 ### Experience-based questions
 
-- For experience-based questions, provide an answer framework — not a script to memorize.
+- For experience-based questions (and all questions in files with no section headers, like behavioral), provide an answer framework — not a script to memorize.
 - Include: what the interviewer is looking for, key points to hit, a suggested structure, and an example outline the reader can personalize with their own experience.
 
 ## Batching Rules
@@ -103,9 +104,6 @@ setImmediate(() => console.log("immediate")); // fires second
 
 ## Important Rules
 
-- Write ONLY answers — do not add, remove, or modify any questions.
-- Do not renumber or reorder questions.
-- Do not modify the stats line or section headers.
+- Write ONLY answers — do not add, remove, or modify any questions, stats, or section headers.
 - Every answer must be self-contained enough to be useful on its own, while avoiding redundancy with other answers in the same file.
-- If a question's answer would benefit from a diagram, use ASCII art or a simple text-based diagram.
 - If invoked on a file where all questions already have answers (no `<!-- Answer will be added later -->` placeholders remain), do NOT overwrite existing answers. Instead, inform the user: "All questions in this file already have answers. No changes made."
